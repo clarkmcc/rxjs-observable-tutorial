@@ -97,7 +97,7 @@ export class AppComponent {
   //
   // The more reactive (rxjs) approach to solving this problem is using the switch map
   public realWorldSwitchMapObservable(): Observable<number> {
-    // Create a fake observable that will mock the 2rd party sales tax api
+    // Create a fake observable that will mock the 3rd party sales tax api
     const salesTaxApi = of(1.25);
     // Create a fake observable that will mock our api that returns an order total
     const ourApiOrderTotal = of(125);
