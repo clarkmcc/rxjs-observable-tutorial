@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {interval, Observable, of, timer} from 'rxjs';
 import {delay, map, switchMap, take} from 'rxjs/operators';
+import {ApiService, ApiUser, User} from './core/api.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,9 @@ import {delay, map, switchMap, take} from 'rxjs/operators';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  // tslint:disable-next-line:variable-name
+  constructor(private apiService_: ApiService) {}
   title = 'rxjs-learning';
 
   public simpleStringObservable(): Observable<string> {
@@ -114,4 +118,26 @@ export class AppComponent {
         )
       );
   }
+
+  // Lets try this with a real API, we're going to use the public testing API provider
+  // https://jsonplaceholder.typicode.com/ for this example. We'll also save the observable
+  // to a variable instead of subscribing to it in a function.
+  // tslint:disable-next-line:member-ordering
+  public $apiUsers = this.apiService_.getApiUsers();
+
+  // Let's try this again and use observables to mutate the response before showing it in
+  // the view. In this case instead of sending the raw data to the view, lets initialize
+  // each value in the array that comes back from the service into a new class called User
+  // so that we can have access to the methods that are on the User class (like hasUsername())
+  // tslint:disable-next-line:member-ordering
+  public $users = this.apiService_.getApiUsers()
+    // Pipe the raw response from the API
+    .pipe(
+      // For each response (there will only be one with a REST API like this) map over the
+      // response, getting each raw item out, and initializing a new user for each item.
+      //
+      // Now we've converting an entire dataset into a new type that we can work with
+      // internally however we want.
+      map(response => response.map(item => new User(item)))
+    );
 }

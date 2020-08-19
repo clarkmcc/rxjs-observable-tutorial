@@ -33,8 +33,37 @@
 </div>
 
 <div>
-  <span>switchMapObservable()</span>
+  <span>realWorldSwitchMapObservable()</span>
   <br>
   <span>total cost: </span>
   <b>{{ realWorldSwitchMapObservable() | async | currency}}</b>
+</div>
+
+
+<div>
+  <span>Raw Data from an API</span>
+  <br>
+  <ul>
+    <li *ngFor="let apiUser of ($apiUsers | async)">
+      <div>Name: {{apiUser.name}}</div>
+      <div>Username: {{apiUser.username}}</div>
+      <div>Email: {{apiUser.email}}</div>
+      <div>ID: {{apiUser.id}}</div>
+      ===
+    </li>
+  </ul>
+</div>
+
+<div>
+  <span>Structured Data from an API</span>
+  <br>
+  <ul>
+    <li *ngFor="let user of ($users | async)">
+      <div>Name: {{user.name}}</div>
+      <div>Username: {{user.username}} (has username: {{user.hasUsername()}}</div>
+      <div>Email: {{user.email}} (has email: {{user.hasEmail()}})</div>
+      <div>ID: {{user.id}}</div>
+      ===
+    </li>
+  </ul>
 </div>
